@@ -17,6 +17,11 @@
  * under the License.
  */
 var app = {
+    token:"",
+    accessToken:"",
+    refreshToken:"",
+    clientId: "9121d0695d984d7b9d86628d17a0c654",
+    clientSecret: "7ad01f63c18a4fa9bb59b629a1bb95b0",
     // Application Constructor
     initialize: function() {
         this.bindEvents();
@@ -37,15 +42,58 @@ var app = {
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
 
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
-
-        console.log('Received Event: ' + id);
+    },
+    login: function() {
+        window.location = "https://accounts.spotify.com/authorize/?client_id=9121d0695d984d7b9d86628d17a0c654&response_type=code&redirect_uri=trackguess%3A//&scope=user-library-read"        
+    },
+    joinRoom: function(){
+            app.socket.emit('join', {room:$('input[name="room"]').val()});
+    },
+    grabTrack: function(url){
+        $.ajax({
+            url: url,
+            type: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + this.accessToken
+            },
+        })
+        .done(function(data) {
+            app.socket.emit('track', data);
+            if(data.next != null){
+                app.grabTrack(data.next);
+            }
+            else{
+            }
+        })
+        .fail(function() {
+            console.log("error");
+        })
+        .always(function() {
+            console.log("complete");
+        });
+        
+    },
+    getUser: function(){
+        $.ajax({
+            url: 'https://api.spotify.com/v1/me',
+            type: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + this.accessToken
+            },
+        })
+        .done(function(data) {
+            app.socket.emit('initUser', data);
+            app.username = data.id;
+        })
+        .fail(function() {
+            console.log("error");
+        })
+        .always(function() {
+            console.log("complete");
+        });
     }
 };
+
 
 app.initialize();

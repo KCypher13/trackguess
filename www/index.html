@@ -32,19 +32,50 @@
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
         <link rel="stylesheet" type="text/css" href="css/index.css">
+        <link rel="stylesheet" href="js/vendor/jqueryMobile/jquery.mobile-1.4.5.min.css">
         <title>Trackguess</title>
+        <script>
+            function handleOpenURL(url) {
+                var code = url.split('?code=')[1];
+                app.socket = io('http://192.168.15.240:3000');
+                $.ajax({
+                  type: "POST",
+                  url: 'https://accounts.spotify.com/api/token',
+                  data: {
+                            grant_type: "authorization_code",
+                            code : code,
+                            redirect_uri :'trackguess%3A//',
+                            client_id: app.clientId,
+                            client_secret: app.clientSecret
+                        },
+                  success: function(data){
+                    app.accessToken = data.access_token;
+                    app.refreshToken = data.refresh_token;
+                    app.getUser();
+                    app.grabTrack('https://api.spotify.com/v1/me/tracks?market=ES&limit=50');
+                    $.mobile.navigate('#room');
+                  },
+                  dataType: 'json'
+                });
+            }
+        </script>
     </head>
     <body>
         <div class="app">
             <div data-role="page" id="connexion">
                 <h2>Connexion TrackGuess</h2>
+                <button class="login" onclick="app.login()">Spotify Login</button>
+            </div>
+            <div data-role="page" id="room">
+                <h2>Connexion room</h2>
                 room <input type="text" name="room">
-                <button class="login">Login</button>
+                <button class="room" onclick="app.joinRoom()" >Login</button>
             </div>
         </div>
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript" src="js/vendor/jquery.min.js"></script>
         <script type="text/javascript" src="js/vendor/jqueryMobile/jquery.mobile-1.4.5.min.js"></script>
+        <script type="text/javascript" src="js/vendor/socketio.js"></script>
     </body>
 </html>
