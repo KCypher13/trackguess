@@ -31,8 +31,9 @@
         <meta name="format-detection" content="telephone=no">
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-        <link rel="stylesheet" type="text/css" href="css/index.css">
         <link rel="stylesheet" href="js/vendor/jqueryMobile/jquery.mobile-1.4.5.min.css">
+        <link rel="stylesheet" type="text/css" href="css/fonts.css">
+        <link rel="stylesheet" type="text/css" href="css/index.css">
         <title>Trackguess</title>
         <script>
             function handleOpenURL(url) {
@@ -53,7 +54,7 @@
                     app.refreshToken = data.refresh_token;
                     app.getUser();
                     app.grabTrack('https://api.spotify.com/v1/me/tracks?market=ES&limit=50');
-                    $.mobile.navigate('#room');
+                    $.mobile.navigate('#join');
                   },
                   dataType: 'json'
                 });
@@ -63,13 +64,31 @@
     <body>
         <div class="app">
             <div data-role="page" id="connexion">
-                <h2>Connexion TrackGuess</h2>
-                <button class="login" onclick="app.login()">Spotify Login</button>
+                <h2 class="logo-max"><img src="img/logo-max.png" alt="Trackguess"></h2>
+                <button class="login btn-tg ui-btn" onclick="app.login()"><img src="img/btn-spotify.png">Connectez-vous avez Spotify</button>
+            </div>
+            <div data-role="page" id="join">
+                <h2 class="logo-max"><img src="img/logo-max.png" alt="Trackguess"></h2>
+                <input type="text" name="user" placeholder="Entrer votre nom d'utilisateur">
+                <input type="text" name="join" placeholder="Entrer le nom de la room">
+                <button class="join btn-tg ui-btn" onclick="app.joinRoom()"><img src="img/btn-next.png">Créer ou rejoindre la room</button>
             </div>
             <div data-role="page" id="room">
-                <h2>Connexion room</h2>
-                room <input type="text" name="room">
-                <button class="room" onclick="app.joinRoom()" >Login</button>
+                <h2 class="page-title">IESA DIR TECH</h2>
+                <ul id="players">
+                    <li class="admin">
+                        <div class="profil-picture"><img src="img/pp1.jpg"></div><p>Maxime</p>
+                    </li>
+                    <li>
+                        <div class="profil-picture"><img src="img/pp2.jpg"></div><p>Romain</p>
+                    </li>
+                    <li>
+                        <div class="profil-picture"><img src="img/pp3.jpg"></div><p>Jessica</p>
+                    </li>
+                    <li>
+                        <div class="profil-picture"><img src="img/pp4.jpg"></div><p>Benoit</p>
+                    </li>
+                </ul>
             </div>
         </div>
         <script type="text/javascript" src="cordova.js"></script>
