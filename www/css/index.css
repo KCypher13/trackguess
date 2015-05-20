@@ -27,7 +27,8 @@ body {
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
     -webkit-user-select: none;      
     font-family: 'roboto_condensedregular', Helvetica, Arial, sans-serif;
-    font-size:12px;
+    font-size:18px;
+    color: #4b4b4b;
     height:100%;
     margin:0px;
     padding:0px;
@@ -54,6 +55,9 @@ body {
     display: none;
 }
 #room {
+    display: none;
+}
+#game {
     display: block;
 }
 
@@ -135,37 +139,195 @@ input:-moz-placeholder { font-family: 'roboto_condensedlight'; }
 }
 
 /* Room */
-#players {
-    padding: 0;,
+#room .players {
+    padding: 0;
+    margin: 0 0 70px 0;
 }
-#players li {
+#room .players li {
     display: block;
     width: 80%;
     margin: 0 auto;
-    padding: 10px 0;
-    border-bottom: 1px solid #818181;
+    border-bottom: 1px solid #d9d9d9;
     list-style: none;
     text-align: left;
+    font-size: 20px;
 }
-#players li:last-child {
+#room .players li:last-child {
     border-bottom: none;
 }
-#players p {
+#room .players p {
     display: inline-block;
 }
-.profil-picture {
-    border: 2px solid #818181;
+#room .admin .profil-picture div{
+    border: 3px solid #d16b60;
+}
+#room .profil-picture {
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+}
+#room .profil-picture > img{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 25px;
+    display: inline-block;
+}
+#room .profil-picture div {
+    border: 3px solid #818181;
     border-radius: 50%;
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
+    margin: 0 10px 0 0;
     overflow: hidden;
     display: inline-block;
     vertical-align: middle;
 }
-.profil-picture img {
+#room .profil-picture div img {
     width: 100%;
     display: inline-block;
 }
+@-webkit-keyframes loading {
+    0   {-webkit-transform: rotate(0deg); transform: rotate(0deg);}
+    to {-webkit-transform: rotate(360deg);transform: rotate(360deg);}  
+}
+@keyframes loading {
+    from   {-webkit-transform: rotate(0deg); transform: rotate(0deg);}
+    to {-webkit-transform: rotate(360deg);transform: rotate(360deg);}  
+}
+.loading {
+    display: none;
+    position: fixed;
+    width: 100%;
+    bottom: 90px;
+    text-align: center;
+    color: #d16b60; 
+    z-index: 10;
+}
+.loader {
+    display: inline-block;
+    width: 100px;
+    -webkit-animation: loading 2s linear infinite;
+    animation: loading 2s linear infinite;
+}
+.loading-message {
+    width: 80%;
+    margin: 0 auto;
+}
+#room button {
+    opacity: 1;
+}
+#room button img {
+    width: 25px;
+    vertical-align: middle;
+    display: inline-block;
+    margin: 0 15px 0 -20px;
+}
+
+
+/* Game */
+.timer {
+    border-radius: 50%;
+    width: 130px;
+    height: 130px;
+    margin: 20px auto;
+    line-height: 120px;
+    background: #fff;
+    border: 3px solid #d16b60;
+    color: #d16b60;
+    font-size: 35px;
+    text-align: center;
+    font-family: 'roboto_condensedbold';
+}
+#audioplayer{
+    width: 80%;
+    height: 40px;
+    margin: 0 auto;
+}
+#timeline{
+    margin: 0 auto;
+    width: 80%;
+    height: 5px;
+    border-radius: 15px;
+    background: #818181;
+  
+}
+#curseur{
+    width: 18px;
+    height: 18px;
+    top: -6px;
+    position: relative;
+    border-radius: 50%;
+    border: 3px solid #d16b60;
+    background: #fff;
+
+}
+#top-game {
+    height: 200px;
+}
+#game .players {
+    padding: 0;
+    margin: 0 0 70px 0;
+}
+#game .players li {
+    display: block;
+    width: 100%;
+    margin: 0 auto;
+    list-style: none;
+    text-align: left;
+    font-size: 20px;
+}
+#game .players li > div{
+    width: 80%;
+    margin: 0 auto;
+    border-bottom: 1px solid #d9d9d9;
+}
+#game .players li.selected {
+    color: #fff;
+    background: #818181;
+}
+#game .players li.selected > div{
+    border-bottom: 1px solid #818181;
+}
+#game .players li.selected .profil-picture div{
+    border: 3px solid #fff;
+}
+#game .players li:last-child {
+    border-bottom: none;
+}
+#game .players p {
+    display: inline-block;
+}
+#game .admin .profil-picture div{
+    border: 3px solid #d16b60;
+}
+#game .profil-picture {
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+}
+#game .profil-picture > img{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 25px;
+    display: inline-block;
+}
+#game .profil-picture div {
+    border: 3px solid #818181;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    margin: 0 10px 0 0;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+}
+#game .profil-picture div img {
+    width: 100%;
+    display: inline-block;
+}
+
 
 /* Landscape layout (with min-width) */
 @media screen and (min-aspect-ratio: 1/1) and (min-width:400px) {
