@@ -31,8 +31,9 @@
         <meta name="format-detection" content="telephone=no">
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-        <link rel="stylesheet" type="text/css" href="css/index.css">
         <link rel="stylesheet" href="js/vendor/jqueryMobile/jquery.mobile-1.4.5.min.css">
+        <link rel="stylesheet" type="text/css" href="css/fonts.css">
+        <link rel="stylesheet" type="text/css" href="css/index.css">
         <title>Trackguess</title>
         <script>
             function handleOpenURL(url) {
@@ -66,7 +67,6 @@
                     else{
                         var i = 1;
                         $.each(data.players, function(index, val) {
-                            console.log(val);
                             $('#players li:nth-child('+i+') p').html(val);
                         });
                         $('#players li:nth-child('+data.number+') p').html(app.username)
@@ -88,40 +88,196 @@
     <body>
         <div class="app">
             <div data-role="page" id="connexion">
-                <h2>Connexion TrackGuess</h2>
-                <button class="login" onclick="app.login()">Spotify Login</button>
+                <h2 class="logo-max"><img src="img/logo-max.png" alt="Trackguess"></h2>
+                <button class="login btn-tg ui-btn" onclick="app.login()"><img src="img/btn-spotify.png">Connectez-vous avez Spotify</button>
             </div>
             <div data-role="page" id="join">
-                <h2>Connexion room</h2>
-                room <input type="text" name="room">
-                <button class="room" onclick="app.joinRoom()" >Login</button>
+                <h2 class="logo-max"><img src="img/logo-max.png" alt="Trackguess"></h2>
+                <input type="text" name="user" placeholder="Entrer votre nom d'utilisateur">
+                <input type="text" name="join" placeholder="Entrer le nom de la room">
+                <button class="join btn-tg ui-btn" onclick="app.joinRoom()"><img src="img/btn-next.png">Créer ou rejoindre la room</button>
             </div>
             <div data-role="page" id="room">
+                <div class="loading">
+                    <img src="img/loader.png" class="loader" alt="">
+                    <p class="loading-message">Récupération des morceaux des participants</p>
+                </div>
                 <h2 class="page-title">IESA DIR TECH</h2>
-                <ul id="players">
+                <ul class="players">
                     <li class="admin">
-                        <div class="profil-picture"><img src="img/pp1.jpg"></div><p></p>
+                        <div class="profil-picture"><div><img src="img/pp1.jpg"></div><img src="img/icon-admin.png"></div>
+                        <p></p>
                     </li>
                     <li>
-                        <div class="profil-picture"><img src="img/pp2.jpg"></div><p></p>
+                        <div class="profil-picture"><div><img src="img/pp2.jpg"></div></div>
+                        <p></p>
                     </li>
                     <li>
-                        <div class="profil-picture"><img src="img/pp3.jpg"></div><p></p>
+                        <div class="profil-picture"><div><img src="img/pp3.jpg"></div></div>
+                        <p></p>
                     </li>
                     <li>
-                        <div class="profil-picture"><img src="img/pp4.jpg"></div><p></p>
+                        <div class="profil-picture"><div><img src="img/pp4.jpg"></div></div>
+                        <p></p>
                     </li>
                 </ul>
-                <button class="launch hide" onclick="app.launchGame()">Lancer</button>
+
+                <button class="play btn-tg ui-btn" onclick="app.launchGame()"><img src="img/btn-next.png">Lancer la partie</button>
             </div>
-            <div data-role="page" id="game">
-                
+        </div>
+        <div data-role="page" id="game">
+            <h2 class="page-title">Manche 1/5</h2>
+            <div id="top-game">
+                <div id="temps1">
+                    <div class="timer"></div>
+                    <audio id="music" preload="true" autoplay>
+
+                    </audio>
+                    <div id="timeline">    
+                        <div id="curseur"></div>
+                    </div>
+                </div>
+                <div id="temps2">
+                    <div id="cover">
+                        <img src="img/cover.jpg" alt="">
+                    </div>
+                    <p id="artist">Ben Harper</p>
+                    <p id="track">Please bleed</p>
+                </div>
             </div>
+            <ul class="players">
+                <li class="admin">
+                    <div>
+                        <div class="profil-picture"><div><img src="img/pp1.jpg"></div><img src="img/icon-admin.png"></div>
+                        <p>Maxime</p>
+                        <span></span>
+                        <p class="resultat">+1</p>
+                    </div>
+                </li>
+                <li class="wrong">
+                    <div>
+                        <div class="profil-picture"><div><img src="img/pp2.jpg"></div></div>
+                        <p>Romain</p>
+                        <span></span>
+                        <p class="resultat">+1</p>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <div class="profil-picture"><div><img src="img/pp3.jpg"></div></div>
+                        <p>Jessica</p>
+                        <span></span>
+                        <p class="resultat">+1</p>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <div class="profil-picture"><div><img src="img/pp4.jpg"></div></div>
+                        <p>Benoit</p>
+                        <span></span>
+                        <p class="resultat">+1</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div data-role="page" id="fin">
+            <h2 class="page-title">Résultats</h2>
+            <ul class="players">
+                <li class="admin">
+                    <div>
+                        <div class="profil-picture"><div><img src="img/pp1.jpg"></div><img src="img/icon-admin.png"></div>
+                        <p>Maxime</p>
+                        <p class="resultat">14</p>
+                    </div>
+                </li>
+                <li class="wrong">
+                    <div>
+                        <div class="profil-picture"><div><img src="img/pp2.jpg"></div></div>
+                        <p>Romain</p>
+                        <p class="resultat">11</p>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <div class="profil-picture"><div><img src="img/pp3.jpg"></div></div>
+                        <p>Jessica</p>
+                        <p class="resultat">7</p>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <div class="profil-picture"><div><img src="img/pp4.jpg"></div></div>
+                        <p>Benoit</p>
+                        <p class="resultat">6</p>
+                    </div>
+                </li>
+            </ul>
+            <button class="again btn-tg ui-btn"><img src="img/btn-again.png">Rejouer</button>
+            <button class="classement btn-tg ui-btn"><img src="img/btn-classement.png">Voir le classement général</button>
+        </div>
+        <div data-role="page" id="classement">
+            <h2 class="page-title">Classement général</h2>
+            <h2 class="nombre-partie">3 parties</h2>
+            <ul class="players">
+                <li class="admin">
+                    <div>
+                        <div class="profil-picture"><div><img src="img/pp1.jpg"></div><img src="img/icon-admin.png"></div>
+                        <p>Maxime</p>
+                        <p class="resultat">14</p>
+                    </div>
+                </li>
+                <li class="wrong">
+                    <div>
+                        <div class="profil-picture"><div><img src="img/pp2.jpg"></div></div>
+                        <p>Romain</p>
+                        <p class="resultat">11</p>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <div class="profil-picture"><div><img src="img/pp3.jpg"></div></div>
+                        <p>Jessica</p>
+                        <p class="resultat">7</p>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <div class="profil-picture"><div><img src="img/pp4.jpg"></div></div>
+                        <p>Benoit</p>
+                        <p class="resultat">6</p>
+                    </div>
+                </li>
+            </ul>
+            <button class="again btn-tg ui-btn"><img src="img/btn-again.png">Rejouer</button>
+        </div>
+        <div data-role="page" id="join">
+            <h2>Connexion room</h2>
+            room <input type="text" name="room">
+            <button class="room" onclick="app.joinRoom()" >Login</button>
+        </div>
+        <div data-role="page" id="room">
+            <h2 class="page-title">IESA DIR TECH</h2>
+            <ul id="players">
+                <li class="admin">
+                    <div class="profil-picture"><img src="img/pp1.jpg"></div><p></p>
+                </li>
+                <li>
+                    <div class="profil-picture"><img src="img/pp2.jpg"></div><p></p>
+                </li>
+                <li>
+                    <div class="profil-picture"><img src="img/pp3.jpg"></div><p></p>
+                </li>
+                <li>
+                    <div class="profil-picture"><img src="img/pp4.jpg"></div><p></p>
+                </li>
+            </ul>
+            <button class="launch hide">Lancer</button>
         </div>
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript" src="js/vendor/jquery.min.js"></script>
         <script type="text/javascript" src="js/vendor/jqueryMobile/jquery.mobile-1.4.5.min.js"></script>
         <script type="text/javascript" src="js/vendor/socketio.js"></script>
+        <script type="text/javascript" src="js/anim.js"></script>
     </body>
 </html>
