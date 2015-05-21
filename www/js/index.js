@@ -24,7 +24,7 @@ var app = {
     clientSecret: "7ad01f63c18a4fa9bb59b629a1bb95b0",
     room:"",
     round:0,
-    result:2,
+    result:0,
     number:0,
     // Application Constructor
     initialize: function() {
@@ -90,6 +90,9 @@ var app = {
         .done(function(data) {
             app.socket.emit('initUser', data);
             app.username = data.id;
+            if(data.images.length > 0){
+                app.image = data.images[0].url
+            }
         })
         .fail(function() {
             console.log("error");
@@ -102,9 +105,93 @@ var app = {
         app.socket.emit('launchgame', {room : app.room})
         
     },
-    result: function(){
+    nextRound: function(){
+       
+        $('#music').empty();
+        
+        app.music = document.getElementById('music'+app.round);
+
+        app.music.load();
+        app.music.addEventListener("timeupdate", app.timeUpdate, false);
+
+        app.music.addEventListener("canplaythrough", function () {
+            app.duration = app.music.duration;  
+        }, false);
+
+        app.music.onloadeddata = function(){
+            app.music.play();
+            $('#game li').removeClass('selected');
+            $('#game #temps2').hide();
+            $('#game #temps1').show();
+            $('#game li .resultat').empty();
+            $('#cover img').attr('src', '');
+            $('#artist').empty();
+            $('#track').empty();
+
+            $('#cover img').attr('src', app.tracks[app.round].track.album.images[1].url);
+            $('#artist').html(app.tracks[app.round].track.artists[0].name);
+            $('#track').html(app.tracks[app.round].track.name);
+            app.round++;
+            console.log(app.round);
+            $('.round').html(app.round);    
+        };
+        
+
+    },
+    timeUpdate: function() {
+        var countDown;
+        countDown = Math.floor(app.duration - app.music.currentTime);
+
+        $('.timer').html(countDown);
+
+        if(countDown == 0) {
+            $('#game #temps1').fadeOut(200);
+            setTimeout(function(){
+                $('#game #temps2').fadeIn(200);
+            },200);
+            
+        }
+
+    },
+    endRound: function(){
+       var idReponse = $('#game li.selected').data('id');
+
+        if(idReponse == app.tracks[app.round-1].owner){
+            app.result++;
+            $('#game .selected .resultat').html('+1');
+        }
+        else{
+            $('#game .selected .resultat').html('0');
+        }
+
+        if(app.round<5){
+            setTimeout(function(){
+                app.nextRound();
+                
+            }, 3000);
+        }
+        else{
+            app.sendResult();
+        }
+    },
+    sendResult: function(){
+        console.log('result send');
         $('.players li:nth-child('+app.number+') .resultat').html(app.result);
         app.socket.emit('result', {result : app.result, room: app.room});
+        $.mobile.navigate('#fin');
+    },
+    sendReload: function(){
+        app.socket.emit('reload', {room: app.room});
+    },
+    reload: function(){
+        app.round=0;
+        app.result = 0;
+
+        $('audio').empty();
+        $('#game #temps2').hide();
+        $('#game #temps1').show();
+        $('.resultat').empty();
+        app.launchGame();
     }
 };
 

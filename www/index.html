@@ -60,37 +60,58 @@
                 });
 
                 app.socket.on('game', function(data){
+                    app.role="";
+                    $('#room .page-title').html(app.room);
                     if(data.role == "admin"){
                         $('.play').removeClass('hide');
-                        $('.admin p').html(app.username);
+                        $('.again').removeClass('hide');
+                        $('.admin p:not(.resultat)').html(app.username);
                         app.number= 1;
                     }
                     else{
                         var i = 1;
                         $.each(data.players, function(index, val) {
-                            $('.players li:nth-child('+i+') p').html(val);
+                            $('.players li:nth-child('+i+')').removeClass('hide');
+                            $('.players li:nth-child('+i+') p:not(.resultat)').html(val.id);
+                            if(val.image != null){
+                                $('.players li:nth-child('+i+') img:not(".imgadmin")').attr('src', val.image);
+                            }
                         });
-                        $('.players li:nth-child('+data.number+') p').html(app.username)
                         app.number= data.number;
+                        $('.players li:nth-child('+app.number+')').removeClass('hide');
+                        $('.players li:nth-child('+app.number+') p:not(.resultat)').html(app.username);
+                    }
+                    if(app.image != undefined){
+                        $('.players li:nth-child('+app.number+') img:not(".imgadmin")').attr('src', app.image);
                     }
                     $.mobile.navigate('#room');
                 });
 
                 app.socket.on('newPlayer', function(data){
-                    $('.players li:nth-child('+data.number+') p').html(data.spotifyId)
+                    $('.players li:nth-child('+data.number+')').removeClass('hide');
+                    $('.players li:nth-child('+data.number+') p:not(.resultat)').html(data.spotifyId);
+                    if(data.image != null){
+                        $('.players li:nth-child('+data.number+') img:not(".imgadmin")').attr('src', data.image);
+                    }
                 });
 
                 app.socket.on('quizz', function(data){
-                    alert('quizz');
-                    console.log(data);
-                    nextRound(app.round);
+                    app.tracks = data;
+                    app.nextRound();
+                    for(key in app.tracks){
+                        $('#music'+key).html('<source src="'+app.tracks[key].track.preview_url+'" type="audio/mpeg">');
+                    }
                     $.mobile.navigate('#game');
+
                 });
 
                 app.socket.on('result', function(data){
-                    alert('results');
                     $('.players li:nth-child('+data.number+') .resultat').html(data.result);
-                    $.mobile.navigate('#fin');
+                });
+
+                app.socket.on('reload', function(data){
+                    console.log('reload');
+                    app.reload();
                 })
             }
         </script>
@@ -103,7 +124,6 @@
             </div>
             <div data-role="page" id="join">
                 <h2 class="logo-max"><img src="img/logo-max.png" alt="Trackguess"></h2>
-                <input type="text" name="user" placeholder="Entrer votre nom d'utilisateur">
                 <input type="text" name="room" placeholder="Entrer le nom de la room">
                 <button class="join btn-tg ui-btn" onclick="app.joinRoom()"><img src="img/btn-next.png">Créer ou rejoindre la room</button>
             </div>
@@ -112,22 +132,22 @@
                     <img src="img/loader.png" class="loader" alt="">
                     <p class="loading-message">Récupération des morceaux des participants</p>
                 </div>
-                <h2 class="page-title">IESA DIR TECH</h2>
+                <h2 class="page-title"></h2>
                 <ul class="players">
                     <li data-id="1" class="admin">
-                        <div class="profil-picture"><div><img src="img/pp1.jpg"></div><img src="img/icon-admin.png"></div>
+                        <div class="profil-picture"><div><img src="img/default.gif"></div><img class="imgadmin" src="img/icon-admin.png"></div>
                         <p></p>
                     </li>
-                    <li data-id="2">
-                        <div class="profil-picture"><div><img src="img/pp2.jpg"></div></div>
+                    <li data-id="2" class="hide">
+                        <div class="profil-picture"><div><img src="img/default.gif"></div></div>
                         <p></p>
                     </li>
-                    <li data-id="3">
-                        <div class="profil-picture"><div><img src="img/pp3.jpg"></div></div>
+                    <li data-id="3" class="hide">
+                        <div class="profil-picture"><div><img src="img/default.gif"></div></div>
                         <p></p>
                     </li>
-                    <li data-id="4">
-                        <div class="profil-picture"><div><img src="img/pp4.jpg"></div></div>
+                    <li data-id="4" class="hide">
+                        <div class="profil-picture"><div><img src="img/default.gif"></div></div>
                         <p></p>
                     </li>
                 </ul>
@@ -136,56 +156,55 @@
             </div>
            
             <div data-role="page" id="game">
-                <h2 class="page-title">Manche 1/5</h2>
+            <h2 class="page-title">Manche <span class="round">1</span>/5</h2>
                 <div id="top-game">
                     <div id="temps1">
                         <div class="timer"></div>
-                        <audio id="music" preload="true" autoplay>
-
-                        </audio>
-                        <div id="timeline">    
-                            <div id="curseur"></div>
-                        </div>
+                        <audio id="music0" preload="true" onended="app.endRound()"></audio>
+                        <audio id="music1" preload="true" onended="app.endRound()"></audio>
+                        <audio id="music2" preload="true" onended="app.endRound()"></audio>
+                        <audio id="music3" preload="true" onended="app.endRound()"></audio>
+                        <audio id="music4" preload="true" onended="app.endRound()"></audio>
                     </div>
                     <div id="temps2">
                         <div id="cover">
-                            <img src="img/cover.jpg" alt="">
+                            <img src="" alt="">
                         </div>
-                        <p id="artist">Ben Harper</p>
-                        <p id="track">Please bleed</p>
+                        <p id="artist"></p>
+                        <p id="track"></p>
                     </div>
                 </div>
                 <ul class="players">
-                    <li class="admin">
+                    <li data-id="1" class="admin">
                         <div>
-                            <div class="profil-picture"><div><img src="img/pp1.jpg"></div><img src="img/icon-admin.png"></div>
+                            <div class="profil-picture"><div><img src="img/default.gif"></div><img class="imgadmin" src="img/icon-admin.png"></div>
                             <p></p>
                             <span></span>
-                            <p class="resultat">+1</p>
+                            <p class="resultat"></p>
                         </div>
                     </li>
-                    <li class="wrong">
+                    <li data-id="2" class="hide">
                         <div>
-                            <div class="profil-picture"><div><img src="img/pp2.jpg"></div></div>
+                            <div class="profil-picture"><div><img src="img/default.gif"></div></div>
                             <p></p>
                             <span></span>
-                            <p class="resultat">+1</p>
+                            <p class="resultat"></p>
                         </div>
                     </li>
-                    <li>
+                    <li data-id="3" class="hide">
                         <div>
-                            <div class="profil-picture"><div><img src="img/pp3.jpg"></div></div>
+                            <div class="profil-picture"><div><img src="img/default.gif"></div></div>
                             <p></p>
                             <span></span>
-                            <p class="resultat">+1</p>
+                            <p class="resultat"></p>
                         </div>
                     </li>
-                    <li>
+                    <li data-id="4" class="hide">
                         <div>
-                            <div class="profil-picture"><div><img src="img/pp4.jpg"></div></div>
+                            <div class="profil-picture"><div><img src="img/default.gif"></div></div>
                             <p></p>
                             <span></span>
-                            <p class="resultat">+1</p>
+                            <p class="resultat"></p>
                         </div>
                     </li>
                 </ul>
@@ -195,70 +214,34 @@
                 <ul class="players">
                     <li class="admin">
                         <div>
-                            <div class="profil-picture"><div><img src="img/pp1.jpg"></div><img src="img/icon-admin.png"></div>
+                            <div class="profil-picture"><div><img src="img/default.gif"></div><img class="imgadmin" src="img/icon-admin.png"></div>
                             <p></p>
                             <p class="resultat"></p>
                         </div>
                     </li>
-                    <li class="wrong">
+                    <li class="hide">
                         <div>
-                            <div class="profil-picture"><div><img src="img/pp2.jpg"></div></div>
+                            <div class="profil-picture"><div><img src="img/default.gif"></div></div>
                             <p></p>
                             <p class="resultat"></p>
                         </div>
                     </li>
-                    <li>
+                    <li class="hide">
                         <div>
-                            <div class="profil-picture"><div><img src="img/pp3.jpg"></div></div>
+                            <div class="profil-picture"><div><img src="img/default.gif"></div></div>
                             <p></p>
                             <p class="resultat"></p>
                         </div>
                     </li>
-                    <li>
+                    <li class="hide">
                         <div>
-                            <div class="profil-picture"><div><img src="img/pp4.jpg"></div></div>
+                            <div class="profil-picture"><div><img src="img/default.gif"></div></div>
                             <p></p>
                             <p class="resultat"></p>
                         </div>
                     </li>
                 </ul>
-                <button class="again btn-tg ui-btn"><img src="img/btn-again.png">Rejouer</button>
-                <button class="classement btn-tg ui-btn"><img src="img/btn-classement.png">Voir le classement général</button>
-            </div>
-            <div data-role="page" id="classement">
-                <h2 class="page-title">Classement général</h2>
-                <h2 class="nombre-partie">3 parties</h2>
-                <ul class="players">
-                    <li class="admin">
-                        <div>
-                            <div class="profil-picture"><div><img src="img/pp1.jpg"></div><img src="img/icon-admin.png"></div>
-                            <p></p>
-                            <p class="resultat"></p>
-                        </div>
-                    </li>
-                    <li class="wrong">
-                        <div>
-                            <div class="profil-picture"><div><img src="img/pp2.jpg"></div></div>
-                            <p></p>
-                            <p class="resultat"></p>
-                        </div>
-                    </li>
-                    <li>
-                        <div>
-                            <div class="profil-picture"><div><img src="img/pp3.jpg"></div></div>
-                            <p></p>
-                            <p class="resultat"></p>
-                        </div>
-                    </li>
-                    <li>
-                        <div>
-                            <div class="profil-picture"><div><img src="img/pp4.jpg"></div></div>
-                            <p></p>
-                            <p class="resultat"></p>
-                        </div>
-                    </li>
-                </ul>
-                <button class="again btn-tg ui-btn"><img src="img/btn-again.png">Rejouer</button>
+                <button class="hide again btn-tg ui-btn" onclick='app.sendReload()'><img src="img/btn-again.png">Rejouer</button>
             </div>
         </div>
         
