@@ -63,6 +63,7 @@
                     if(data.role == "admin"){
                         $('.play').removeClass('hide');
                         $('.admin p').html(app.username);
+                        app.number= 1;
                     }
                     else{
                         var i = 1;
@@ -70,6 +71,7 @@
                             $('.players li:nth-child('+i+') p').html(val);
                         });
                         $('.players li:nth-child('+data.number+') p').html(app.username)
+                        app.number= data.number;
                     }
                     $.mobile.navigate('#room');
                 });
@@ -84,6 +86,12 @@
                     nextRound(app.round);
                     $.mobile.navigate('#game');
                 });
+
+                app.socket.on('result', function(data){
+                    alert('results');
+                    $('.players li:nth-child('+data.number+') .resultat').html(data.result);
+                    $.mobile.navigate('#fin');
+                })
             }
         </script>
     </head>
@@ -96,7 +104,7 @@
             <div data-role="page" id="join">
                 <h2 class="logo-max"><img src="img/logo-max.png" alt="Trackguess"></h2>
                 <input type="text" name="user" placeholder="Entrer votre nom d'utilisateur">
-                <input type="text" name="join" placeholder="Entrer le nom de la room">
+                <input type="text" name="room" placeholder="Entrer le nom de la room">
                 <button class="join btn-tg ui-btn" onclick="app.joinRoom()"><img src="img/btn-next.png">Créer ou rejoindre la room</button>
             </div>
             <div data-role="page" id="room">
@@ -126,131 +134,132 @@
 
                 <button class="play btn-tg ui-btn hide" onclick="app.launchGame()"><img src="img/btn-next.png">Lancer la partie</button>
             </div>
-        </div>
-        <div data-role="page" id="game">
-            <h2 class="page-title">Manche 1/5</h2>
-            <div id="top-game">
-                <div id="temps1">
-                    <div class="timer"></div>
-                    <audio id="music" preload="true" autoplay>
+           
+            <div data-role="page" id="game">
+                <h2 class="page-title">Manche 1/5</h2>
+                <div id="top-game">
+                    <div id="temps1">
+                        <div class="timer"></div>
+                        <audio id="music" preload="true" autoplay>
 
-                    </audio>
-                    <div id="timeline">    
-                        <div id="curseur"></div>
+                        </audio>
+                        <div id="timeline">    
+                            <div id="curseur"></div>
+                        </div>
+                    </div>
+                    <div id="temps2">
+                        <div id="cover">
+                            <img src="img/cover.jpg" alt="">
+                        </div>
+                        <p id="artist">Ben Harper</p>
+                        <p id="track">Please bleed</p>
                     </div>
                 </div>
-                <div id="temps2">
-                    <div id="cover">
-                        <img src="img/cover.jpg" alt="">
-                    </div>
-                    <p id="artist">Ben Harper</p>
-                    <p id="track">Please bleed</p>
-                </div>
+                <ul class="players">
+                    <li class="admin">
+                        <div>
+                            <div class="profil-picture"><div><img src="img/pp1.jpg"></div><img src="img/icon-admin.png"></div>
+                            <p></p>
+                            <span></span>
+                            <p class="resultat">+1</p>
+                        </div>
+                    </li>
+                    <li class="wrong">
+                        <div>
+                            <div class="profil-picture"><div><img src="img/pp2.jpg"></div></div>
+                            <p></p>
+                            <span></span>
+                            <p class="resultat">+1</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <div class="profil-picture"><div><img src="img/pp3.jpg"></div></div>
+                            <p></p>
+                            <span></span>
+                            <p class="resultat">+1</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <div class="profil-picture"><div><img src="img/pp4.jpg"></div></div>
+                            <p></p>
+                            <span></span>
+                            <p class="resultat">+1</p>
+                        </div>
+                    </li>
+                </ul>
             </div>
-            <ul class="players">
-                <li class="admin">
-                    <div>
-                        <div class="profil-picture"><div><img src="img/pp1.jpg"></div><img src="img/icon-admin.png"></div>
-                        <p></p>
-                        <span></span>
-                        <p class="resultat">+1</p>
-                    </div>
-                </li>
-                <li class="wrong">
-                    <div>
-                        <div class="profil-picture"><div><img src="img/pp2.jpg"></div></div>
-                        <p></p>
-                        <span></span>
-                        <p class="resultat">+1</p>
-                    </div>
-                </li>
-                <li>
-                    <div>
-                        <div class="profil-picture"><div><img src="img/pp3.jpg"></div></div>
-                        <p></p>
-                        <span></span>
-                        <p class="resultat">+1</p>
-                    </div>
-                </li>
-                <li>
-                    <div>
-                        <div class="profil-picture"><div><img src="img/pp4.jpg"></div></div>
-                        <p></p>
-                        <span></span>
-                        <p class="resultat">+1</p>
-                    </div>
-                </li>
-            </ul>
-        </div>
-        <div data-role="page" id="fin">
-            <h2 class="page-title">Résultats</h2>
-            <ul class="players">
-                <li class="admin">
-                    <div>
-                        <div class="profil-picture"><div><img src="img/pp1.jpg"></div><img src="img/icon-admin.png"></div>
-                        <p></p>
-                        <p class="resultat">14</p>
-                    </div>
-                </li>
-                <li class="wrong">
-                    <div>
-                        <div class="profil-picture"><div><img src="img/pp2.jpg"></div></div>
-                        <p></p>
-                        <p class="resultat">11</p>
-                    </div>
-                </li>
-                <li>
-                    <div>
-                        <div class="profil-picture"><div><img src="img/pp3.jpg"></div></div>
-                        <p></p>
-                        <p class="resultat">7</p>
-                    </div>
-                </li>
-                <li>
-                    <div>
-                        <div class="profil-picture"><div><img src="img/pp4.jpg"></div></div>
-                        <p></p>
-                        <p class="resultat">6</p>
-                    </div>
-                </li>
-            </ul>
-            <button class="again btn-tg ui-btn"><img src="img/btn-again.png">Rejouer</button>
-            <button class="classement btn-tg ui-btn"><img src="img/btn-classement.png">Voir le classement général</button>
-        </div>
-        <div data-role="page" id="classement">
-            <h2 class="page-title">Classement général</h2>
-            <h2 class="nombre-partie">3 parties</h2>
-            <ul class="players">
-                <li class="admin">
-                    <div>
-                        <div class="profil-picture"><div><img src="img/pp1.jpg"></div><img src="img/icon-admin.png"></div>
-                        <p></p>
-                        <p class="resultat">14</p>
-                    </div>
-                </li>
-                <li class="wrong">
-                    <div>
-                        <div class="profil-picture"><div><img src="img/pp2.jpg"></div></div>
-                        <p></p>
-                        <p class="resultat">11</p>
-                    </div>
-                </li>
-                <li>
-                    <div>
-                        <div class="profil-picture"><div><img src="img/pp3.jpg"></div></div>
-                        <p></p>
-                        <p class="resultat">7</p>
-                    </div>
-                </li>
-                <li>
-                    <div>
-                        <div class="profil-picture"><div><img src="img/pp4.jpg"></div></div>
-                        <p></p>
-                        <p class="resultat">6</p>
-                    </div>
-                </li>
-            </ul>
-            <button class="again btn-tg ui-btn"><img src="img/btn-again.png">Rejouer</button>
+            <div data-role="page" id="fin">
+                <h2 class="page-title">Résultats</h2>
+                <ul class="players">
+                    <li class="admin">
+                        <div>
+                            <div class="profil-picture"><div><img src="img/pp1.jpg"></div><img src="img/icon-admin.png"></div>
+                            <p></p>
+                            <p class="resultat"></p>
+                        </div>
+                    </li>
+                    <li class="wrong">
+                        <div>
+                            <div class="profil-picture"><div><img src="img/pp2.jpg"></div></div>
+                            <p></p>
+                            <p class="resultat"></p>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <div class="profil-picture"><div><img src="img/pp3.jpg"></div></div>
+                            <p></p>
+                            <p class="resultat"></p>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <div class="profil-picture"><div><img src="img/pp4.jpg"></div></div>
+                            <p></p>
+                            <p class="resultat"></p>
+                        </div>
+                    </li>
+                </ul>
+                <button class="again btn-tg ui-btn"><img src="img/btn-again.png">Rejouer</button>
+                <button class="classement btn-tg ui-btn"><img src="img/btn-classement.png">Voir le classement général</button>
+            </div>
+            <div data-role="page" id="classement">
+                <h2 class="page-title">Classement général</h2>
+                <h2 class="nombre-partie">3 parties</h2>
+                <ul class="players">
+                    <li class="admin">
+                        <div>
+                            <div class="profil-picture"><div><img src="img/pp1.jpg"></div><img src="img/icon-admin.png"></div>
+                            <p></p>
+                            <p class="resultat"></p>
+                        </div>
+                    </li>
+                    <li class="wrong">
+                        <div>
+                            <div class="profil-picture"><div><img src="img/pp2.jpg"></div></div>
+                            <p></p>
+                            <p class="resultat"></p>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <div class="profil-picture"><div><img src="img/pp3.jpg"></div></div>
+                            <p></p>
+                            <p class="resultat"></p>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <div class="profil-picture"><div><img src="img/pp4.jpg"></div></div>
+                            <p></p>
+                            <p class="resultat"></p>
+                        </div>
+                    </li>
+                </ul>
+                <button class="again btn-tg ui-btn"><img src="img/btn-again.png">Rejouer</button>
+            </div>
         </div>
         
         <script type="text/javascript" src="cordova.js"></script>

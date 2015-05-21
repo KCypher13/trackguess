@@ -24,6 +24,8 @@ var app = {
     clientSecret: "7ad01f63c18a4fa9bb59b629a1bb95b0",
     room:"",
     round:0,
+    result:2,
+    number:0,
     // Application Constructor
     initialize: function() {
         this.bindEvents();
@@ -98,6 +100,11 @@ var app = {
     },
     launchGame: function(){
         app.socket.emit('launchgame', {room : app.room})
+        
+    },
+    result: function(){
+        $('.players li:nth-child('+app.number+') .resultat').html(app.result);
+        app.socket.emit('result', {result : app.result, room: app.room});
     }
 };
 
