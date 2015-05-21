@@ -23,6 +23,7 @@ var app = {
     clientId: "9121d0695d984d7b9d86628d17a0c654",
     clientSecret: "7ad01f63c18a4fa9bb59b629a1bb95b0",
     room:"",
+    round:0,
     // Application Constructor
     initialize: function() {
         this.bindEvents();

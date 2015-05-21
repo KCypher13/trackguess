@@ -61,26 +61,28 @@
 
                 app.socket.on('game', function(data){
                     if(data.role == "admin"){
-                        $('.launch').removeClass('hide');
+                        $('.play').removeClass('hide');
                         $('.admin p').html(app.username);
                     }
                     else{
                         var i = 1;
                         $.each(data.players, function(index, val) {
-                            $('#players li:nth-child('+i+') p').html(val);
+                            $('.players li:nth-child('+i+') p').html(val);
                         });
-                        $('#players li:nth-child('+data.number+') p').html(app.username)
+                        $('.players li:nth-child('+data.number+') p').html(app.username)
                     }
                     $.mobile.navigate('#room');
                 });
 
                 app.socket.on('newPlayer', function(data){
-                    $('#players li:nth-child('+data.number+') p').html(data.spotifyId)
+                    $('.players li:nth-child('+data.number+') p').html(data.spotifyId)
                 });
 
                 app.socket.on('quizz', function(data){
                     alert('quizz');
-                    console.log(data)
+                    console.log(data);
+                    nextRound(app.round);
+                    $.mobile.navigate('#game');
                 });
             }
         </script>
@@ -104,25 +106,25 @@
                 </div>
                 <h2 class="page-title">IESA DIR TECH</h2>
                 <ul class="players">
-                    <li class="admin">
+                    <li data-id="1" class="admin">
                         <div class="profil-picture"><div><img src="img/pp1.jpg"></div><img src="img/icon-admin.png"></div>
                         <p></p>
                     </li>
-                    <li>
+                    <li data-id="2">
                         <div class="profil-picture"><div><img src="img/pp2.jpg"></div></div>
                         <p></p>
                     </li>
-                    <li>
+                    <li data-id="3">
                         <div class="profil-picture"><div><img src="img/pp3.jpg"></div></div>
                         <p></p>
                     </li>
-                    <li>
+                    <li data-id="4">
                         <div class="profil-picture"><div><img src="img/pp4.jpg"></div></div>
                         <p></p>
                     </li>
                 </ul>
 
-                <button class="play btn-tg ui-btn" onclick="app.launchGame()"><img src="img/btn-next.png">Lancer la partie</button>
+                <button class="play btn-tg ui-btn hide" onclick="app.launchGame()"><img src="img/btn-next.png">Lancer la partie</button>
             </div>
         </div>
         <div data-role="page" id="game">
@@ -149,7 +151,7 @@
                 <li class="admin">
                     <div>
                         <div class="profil-picture"><div><img src="img/pp1.jpg"></div><img src="img/icon-admin.png"></div>
-                        <p>Maxime</p>
+                        <p></p>
                         <span></span>
                         <p class="resultat">+1</p>
                     </div>
@@ -157,7 +159,7 @@
                 <li class="wrong">
                     <div>
                         <div class="profil-picture"><div><img src="img/pp2.jpg"></div></div>
-                        <p>Romain</p>
+                        <p></p>
                         <span></span>
                         <p class="resultat">+1</p>
                     </div>
@@ -165,7 +167,7 @@
                 <li>
                     <div>
                         <div class="profil-picture"><div><img src="img/pp3.jpg"></div></div>
-                        <p>Jessica</p>
+                        <p></p>
                         <span></span>
                         <p class="resultat">+1</p>
                     </div>
@@ -173,7 +175,7 @@
                 <li>
                     <div>
                         <div class="profil-picture"><div><img src="img/pp4.jpg"></div></div>
-                        <p>Benoit</p>
+                        <p></p>
                         <span></span>
                         <p class="resultat">+1</p>
                     </div>
@@ -186,28 +188,28 @@
                 <li class="admin">
                     <div>
                         <div class="profil-picture"><div><img src="img/pp1.jpg"></div><img src="img/icon-admin.png"></div>
-                        <p>Maxime</p>
+                        <p></p>
                         <p class="resultat">14</p>
                     </div>
                 </li>
                 <li class="wrong">
                     <div>
                         <div class="profil-picture"><div><img src="img/pp2.jpg"></div></div>
-                        <p>Romain</p>
+                        <p></p>
                         <p class="resultat">11</p>
                     </div>
                 </li>
                 <li>
                     <div>
                         <div class="profil-picture"><div><img src="img/pp3.jpg"></div></div>
-                        <p>Jessica</p>
+                        <p></p>
                         <p class="resultat">7</p>
                     </div>
                 </li>
                 <li>
                     <div>
                         <div class="profil-picture"><div><img src="img/pp4.jpg"></div></div>
-                        <p>Benoit</p>
+                        <p></p>
                         <p class="resultat">6</p>
                     </div>
                 </li>
@@ -222,57 +224,35 @@
                 <li class="admin">
                     <div>
                         <div class="profil-picture"><div><img src="img/pp1.jpg"></div><img src="img/icon-admin.png"></div>
-                        <p>Maxime</p>
+                        <p></p>
                         <p class="resultat">14</p>
                     </div>
                 </li>
                 <li class="wrong">
                     <div>
                         <div class="profil-picture"><div><img src="img/pp2.jpg"></div></div>
-                        <p>Romain</p>
+                        <p></p>
                         <p class="resultat">11</p>
                     </div>
                 </li>
                 <li>
                     <div>
                         <div class="profil-picture"><div><img src="img/pp3.jpg"></div></div>
-                        <p>Jessica</p>
+                        <p></p>
                         <p class="resultat">7</p>
                     </div>
                 </li>
                 <li>
                     <div>
                         <div class="profil-picture"><div><img src="img/pp4.jpg"></div></div>
-                        <p>Benoit</p>
+                        <p></p>
                         <p class="resultat">6</p>
                     </div>
                 </li>
             </ul>
             <button class="again btn-tg ui-btn"><img src="img/btn-again.png">Rejouer</button>
         </div>
-        <div data-role="page" id="join">
-            <h2>Connexion room</h2>
-            room <input type="text" name="room">
-            <button class="room" onclick="app.joinRoom()" >Login</button>
-        </div>
-        <div data-role="page" id="room">
-            <h2 class="page-title">IESA DIR TECH</h2>
-            <ul id="players">
-                <li class="admin">
-                    <div class="profil-picture"><img src="img/pp1.jpg"></div><p></p>
-                </li>
-                <li>
-                    <div class="profil-picture"><img src="img/pp2.jpg"></div><p></p>
-                </li>
-                <li>
-                    <div class="profil-picture"><img src="img/pp3.jpg"></div><p></p>
-                </li>
-                <li>
-                    <div class="profil-picture"><img src="img/pp4.jpg"></div><p></p>
-                </li>
-            </ul>
-            <button class="launch hide">Lancer</button>
-        </div>
+        
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript" src="js/vendor/jquery.min.js"></script>

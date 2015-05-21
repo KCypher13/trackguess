@@ -49,7 +49,9 @@ body {
 
 }
 
-
+.hide{
+    display: none !important;
+}
 /* Commun */
 .ui-overlay-a, .ui-page-theme-a, .ui-page-theme-a .ui-panel-wrapper {
     background: none;
