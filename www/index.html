@@ -64,18 +64,18 @@
                         $('.admin p').html(app.username);
                     }
                     else{
-                        console.log(data);
                         var i = 1;
-                        $.each(data.player, function(index, val) {
-                            $('#player li:nth-child('+i+') p').html(val);
+                        $.each(data.players, function(index, val) {
+                            console.log(val);
+                            $('#players li:nth-child('+i+') p').html(val);
                         });
-                        $('#player li:nth-child('+data.number+') p').html(app.username)
+                        $('#players li:nth-child('+data.number+') p').html(app.username)
                     }
                     $.mobile.navigate('#room');
                 });
 
                 app.socket.on('newPlayer', function(data){
-
+                    $('#players li:nth-child('+data.number+') p').html(data.spotifyId)
                 });
             }
         </script>
