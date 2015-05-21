@@ -77,6 +77,11 @@
                 app.socket.on('newPlayer', function(data){
                     $('#players li:nth-child('+data.number+') p').html(data.spotifyId)
                 });
+
+                app.socket.on('quizz', function(data){
+                    alert('quizz');
+                    console.log(data)
+                });
             }
         </script>
     </head>
@@ -107,7 +112,10 @@
                         <div class="profil-picture"><img src="img/pp4.jpg"></div><p></p>
                     </li>
                 </ul>
-                <button class="launch hide">Lancer</button>
+                <button class="launch hide" onclick="app.launchGame()">Lancer</button>
+            </div>
+            <div data-role="page" id="game">
+                
             </div>
         </div>
         <script type="text/javascript" src="cordova.js"></script>

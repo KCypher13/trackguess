@@ -22,6 +22,7 @@ var app = {
     refreshToken:"",
     clientId: "9121d0695d984d7b9d86628d17a0c654",
     clientSecret: "7ad01f63c18a4fa9bb59b629a1bb95b0",
+    room:"",
     // Application Constructor
     initialize: function() {
         this.bindEvents();
@@ -48,7 +49,8 @@ var app = {
         window.location = "https://accounts.spotify.com/authorize/?client_id=9121d0695d984d7b9d86628d17a0c654&response_type=code&redirect_uri=trackguess%3A//&scope=user-library-read"        
     },
     joinRoom: function(){
-            app.socket.emit('join', {room:$('input[name="room"]').val()});
+            app.room = $('input[name="room"]').val();
+            app.socket.emit('join', {room:app.room});
     },
     grabTrack: function(url){
         $.ajax({
@@ -92,6 +94,9 @@ var app = {
         .always(function() {
             console.log("complete");
         });
+    },
+    launchGame: function(){
+        app.socket.emit('launchgame', {room : app.room})
     }
 };
 
