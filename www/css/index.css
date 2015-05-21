@@ -58,6 +58,12 @@ body {
     display: none;
 }
 #game {
+    display: none;
+}
+#fin {
+    display: none;
+}
+#classement {
     display: block;
 }
 
@@ -230,7 +236,7 @@ input:-moz-placeholder { font-family: 'roboto_condensedlight'; }
     border-radius: 50%;
     width: 130px;
     height: 130px;
-    margin: 20px auto;
+    margin: 10px auto 20px auto;
     line-height: 120px;
     background: #fff;
     border: 3px solid #d16b60;
@@ -262,6 +268,35 @@ input:-moz-placeholder { font-family: 'roboto_condensedlight'; }
     background: #fff;
 
 }
+#temps2 {
+    display: none;
+}
+#temps2 #artist {
+    color: #d16b60;
+    font-family: 'roboto_condensedbold';
+    margin: 0;
+}
+#temps2 #track {
+    margin: 0;
+}
+#game #cover {
+    border-radius: 50%;
+    width: 130px;
+    height: 130px;
+    margin: 10px auto;
+    background: #fff;
+    border: 3px solid #d16b60;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+}
+#game #cover img {
+    display: inline-block;
+    position: absolute;
+    width: 110%;
+    margin: 0 0 0 -55%;
+    left: 50%;
+}
 #top-game {
     height: 200px;
 }
@@ -276,6 +311,7 @@ input:-moz-placeholder { font-family: 'roboto_condensedlight'; }
     list-style: none;
     text-align: left;
     font-size: 20px;
+    position: relative;
 }
 #game .players li > div{
     width: 80%;
@@ -292,8 +328,33 @@ input:-moz-placeholder { font-family: 'roboto_condensedlight'; }
 #game .players li.selected .profil-picture div{
     border: 3px solid #fff;
 }
-#game .players li:last-child {
+#game .players li:last-child > div{
     border-bottom: none;
+}
+#game .players li.selected.wrong span {
+    position: absolute;
+    z-index: 10;
+    width: 70%;
+    background: #fff;
+    border-radius: 4px;
+    height: 4px;
+    top: 50%;
+    left: 5%;
+    margin: -2px 0 0 0;
+}
+#game .players p.resultat {
+    display: none;
+}
+#game .players li.selected p.resultat {
+    font-family: 'roboto_condensedbold';
+    color: #fff;
+    font-size: 25px;
+    display: inline-block;
+    position: absolute;
+    right: 10%;
+    top: 50%;
+    margin: -15px 0 0 0;
+
 }
 #game .players p {
     display: inline-block;
@@ -328,6 +389,183 @@ input:-moz-placeholder { font-family: 'roboto_condensedlight'; }
     display: inline-block;
 }
 
+/* Fin */
+
+#fin .players {
+    padding: 0;
+    margin: 0 0 70px 0;
+}
+#fin .players li {
+    display: block;
+    width: 100%;
+    margin: 0 auto;
+    list-style: none;
+    text-align: left;
+    font-size: 20px;
+    position: relative;
+}
+#fin .players li > div{
+    width: 80%;
+    margin: 0 auto;
+    border-bottom: 1px solid #d9d9d9;
+}
+#fin .players li.selected {
+    color: #fff;
+    background: #818181;
+}
+#fin .players li.selected > div{
+    border-bottom: 1px solid #818181;
+}
+#fin .players li.selected .profil-picture div{
+    border: 3px solid #fff;
+}
+#fin .players li:last-child > div{
+    border-bottom: none;
+}
+#fin .players p.resultat {
+    display: none;
+}
+#fin .players p.resultat {
+    font-family: 'roboto_condensedbold';
+    font-size: 25px;
+    display: inline-block;
+    position: absolute;
+    right: 10%;
+    top: 50%;
+    margin: -15px 0 0 0;
+
+}
+#fin .players p {
+    display: inline-block;
+}
+#fin .admin .profil-picture div{
+    border: 3px solid #d16b60;
+}
+#fin .profil-picture {
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+}
+#fin .profil-picture > img{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 25px;
+    display: inline-block;
+}
+#fin .profil-picture div {
+    border: 3px solid #818181;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    margin: 0 10px 0 0;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+}
+#fin .profil-picture div img {
+    width: 100%;
+    display: inline-block;
+}
+
+#fin button img {
+    width: 25px;
+    vertical-align: middle;
+    display: inline-block;
+    margin: 0 15px 0 -20px;
+}
+
+#fin button.classement  {
+    background: #818181;
+}
+
+
+/* Classement */
+
+#classement .players {
+    padding: 0;
+    margin: 0 0 70px 0;
+}
+#classement .players li {
+    display: block;
+    width: 100%;
+    margin: 0 auto;
+    list-style: none;
+    text-align: left;
+    font-size: 20px;
+    position: relative;
+}
+#classement .players li > div{
+    width: 80%;
+    margin: 0 auto;
+    border-bottom: 1px solid #d9d9d9;
+}
+#classement .players li.selected {
+    color: #fff;
+    background: #818181;
+}
+#classement .players li.selected > div{
+    border-bottom: 1px solid #818181;
+}
+#classement .players li.selected .profil-picture div{
+    border: 3px solid #fff;
+}
+#classement .players li:last-child > div{
+    border-bottom: none;
+}
+#classement .players p.resultat {
+    display: none;
+}
+#classement .players p.resultat {
+    font-family: 'roboto_condensedbold';
+    font-size: 25px;
+    display: inline-block;
+    position: absolute;
+    right: 10%;
+    top: 50%;
+    margin: -15px 0 0 0;
+
+}
+#classement .players p {
+    display: inline-block;
+}
+#classement .admin .profil-picture div{
+    border: 3px solid #d16b60;
+}
+#classement .profil-picture {
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+}
+#classement .profil-picture > img{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 25px;
+    display: inline-block;
+}
+#classement .profil-picture div {
+    border: 3px solid #818181;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    margin: 0 10px 0 0;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+}
+#classement .profil-picture div img {
+    width: 100%;
+    display: inline-block;
+}
+
+#classement button img {
+    width: 25px;
+    vertical-align: middle;
+    display: inline-block;
+    margin: 0 15px 0 -20px;
+}
+
 
 /* Landscape layout (with min-width) */
 @media screen and (min-aspect-ratio: 1/1) and (min-width:400px) {
@@ -335,3 +573,6 @@ input:-moz-placeholder { font-family: 'roboto_condensedlight'; }
     }
 }
 
+.hide{
+    display:none !important;
+}

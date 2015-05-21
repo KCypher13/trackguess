@@ -28,8 +28,10 @@ function timeUpdate() {
     $('.timer').html(countDown);
 
 	if(countDown == 0) {
-		$('#game #temps1').fadeOut();
-		$('#game #temps2').fadeIn();
+		$('#game #temps1').fadeOut(200);
+		setTimeout(function(){
+			$('#game #temps2').fadeIn(200);
+		},200);
 	}
 
 }
