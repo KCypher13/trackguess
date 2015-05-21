@@ -53,9 +53,30 @@
                     app.refreshToken = data.refresh_token;
                     app.getUser();
                     app.grabTrack('https://api.spotify.com/v1/me/tracks?market=ES&limit=50');
-                    $.mobile.navigate('#room');
+                    $.mobile.navigate('#join');
                   },
                   dataType: 'json'
+                });
+
+                app.socket.on('game', function(data){
+                    if(data.role == "admin"){
+                        $('.launch').removeClass('hide');
+                        $('.admin p').html(app.username);
+                    }
+                    else{
+                        console.log(data);
+                        var i = 1;
+                        alert(data);
+                        $.each(data.player, function(index, val) {
+                            $('#player li:nth-child('+i+') p').html(val);
+                        });
+                        $('#player li:nth-child('+data.number+') p').html(app.username)
+                    }
+                    $.mobile.navigate('#room');
+                });
+
+                app.socket.on('newPlayer', function(data){
+
                 });
             }
         </script>
@@ -66,10 +87,28 @@
                 <h2>Connexion TrackGuess</h2>
                 <button class="login" onclick="app.login()">Spotify Login</button>
             </div>
-            <div data-role="page" id="room">
+            <div data-role="page" id="join">
                 <h2>Connexion room</h2>
                 room <input type="text" name="room">
                 <button class="room" onclick="app.joinRoom()" >Login</button>
+            </div>
+            <div data-role="page" id="room">
+                <h2 class="page-title">IESA DIR TECH</h2>
+                <ul id="players">
+                    <li class="admin">
+                        <div class="profil-picture"><img src="img/pp1.jpg"></div><p></p>
+                    </li>
+                    <li>
+                        <div class="profil-picture"><img src="img/pp2.jpg"></div><p></p>
+                    </li>
+                    <li>
+                        <div class="profil-picture"><img src="img/pp3.jpg"></div><p></p>
+                    </li>
+                    <li>
+                        <div class="profil-picture"><img src="img/pp4.jpg"></div><p></p>
+                    </li>
+                </ul>
+                <button class="launch hide">Lancer</button>
             </div>
         </div>
         <script type="text/javascript" src="cordova.js"></script>
