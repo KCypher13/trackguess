@@ -22,7 +22,6 @@ var app = {
     refreshToken:"",
     clientId: "9121d0695d984d7b9d86628d17a0c654",
     clientSecret: "7ad01f63c18a4fa9bb59b629a1bb95b0",
-    room:"",
     round:0,
     result:0,
     number:0,
@@ -42,14 +41,22 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
-        app.receivedEvent('deviceready');
         $('.addTrack').on('click', function(){
             app.addTrack(app.tracks[app.round-1].track.id);
         })
+        document.addEventListener("pause", app.pauseApp, false);
+        document.addEventListener("resume", app.resumeApp, false);
     },
     // Update DOM on a Received Event
-    receivedEvent: function(id) {
-
+    pauseApp: function() {
+        if(app.music != undefined){
+            app.music.volume = 0;
+        }
+    },
+    resumeApp: function(){
+        if(app.music != undefined){
+            app.music.volume = 1;
+        }
     },
     login: function() {
         var scope = encodeURIComponent('user-library-modify user-library-read');
@@ -74,14 +81,6 @@ var app = {
             if(data.next != null){
                 app.grabTrack(data.next);
             }
-            else{
-            }
-        })
-        .fail(function() {
-            console.log("error");
-        })
-        .always(function() {
-            console.log("complete");
         });
         
     },
@@ -190,7 +189,9 @@ var app = {
     reset: function(){
         app.round=0;
         app.result = 0;
-        app.music.pause();
+        if(app.music != undefined){
+            app.music.pause();
+        }
 
         $('audio').empty();
         $('#game #temps2').hide();

@@ -61,6 +61,7 @@
 
                 app.socket.on('game', function(data){
                     app.role="";
+
                     $('#room .page-title').html(app.room);
                     if(data.role == "admin"){
                         $('.play').removeClass('hide');
@@ -69,12 +70,12 @@
                         app.number= 1;
                     }
                     else{
-                        var i = 1;
                         $.each(data.players, function(index, val) {
-                            $('.players li:nth-child('+i+')').removeClass('hide');
-                            $('.players li:nth-child('+i+') p:not(.resultat)').html(val.id);
+                            console.log(val);
+                            $('.players li:nth-child('+val.number+')').removeClass('hide');
+                            $('.players li:nth-child('+val.number+') p:not(.resultat)').html(val.id);
                             if(val.image != null){
-                                $('.players li:nth-child('+i+') img:not(".imgadmin")').attr('src', val.image);
+                                $('.players li:nth-child('+val.number+') img:not(".imgadmin")').attr('src', val.image);
                             }
                         });
                         app.number= data.number;
