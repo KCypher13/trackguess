@@ -112,7 +112,12 @@
                 app.socket.on('reload', function(data){
                     console.log('reload');
                     app.reload();
-                })
+                });
+
+                app.socket.on('reconnect', function(data){
+                    alert('reconnect');
+                    app.socket.emit('reconnexion', {spotifyId : app.username});
+                });
             }
         </script>
     </head>
@@ -173,6 +178,7 @@
                         <p id="artist"></p>
                         <p id="track"></p>
                     </div>
+                    <button class="addTrack">Add this track</button>
                 </div>
                 <ul class="players">
                     <li data-id="1" class="admin">

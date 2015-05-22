@@ -43,13 +43,19 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
+        $('.addTrack').on('click', function(){
+            app.addTrack(app.tracks[app.round-1].track.id);
+        })
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
 
     },
     login: function() {
-        window.location = "https://accounts.spotify.com/authorize/?client_id=9121d0695d984d7b9d86628d17a0c654&response_type=code&redirect_uri=trackguess%3A//&scope=user-library-read"        
+        var scope = encodeURIComponent('user-library-modify user-library-read');
+        var uri = encodeURIComponent('trackguess://');
+
+        window.location = "https://accounts.spotify.com/authorize/?client_id=9121d0695d984d7b9d86628d17a0c654&response_type=code&redirect_uri="+uri+"&scope="+scope;        
     },
     joinRoom: function(){
             app.room = $('input[name="room"]').val();
@@ -93,16 +99,10 @@ var app = {
             if(data.images.length > 0){
                 app.image = data.images[0].url
             }
-        })
-        .fail(function() {
-            console.log("error");
-        })
-        .always(function() {
-            console.log("complete");
         });
     },
     launchGame: function(){
-        app.socket.emit('launchgame', {room : app.room})
+        app.socket.emit('launchgame', {})
         
     },
     nextRound: function(){
@@ -177,11 +177,11 @@ var app = {
     sendResult: function(){
         console.log('result send');
         $('.players li:nth-child('+app.number+') .resultat').html(app.result);
-        app.socket.emit('result', {result : app.result, room: app.room});
+        app.socket.emit('result', {result : app.result});
         $.mobile.navigate('#fin');
     },
     sendReload: function(){
-        app.socket.emit('reload', {room: app.room});
+        app.socket.emit('reload', {});
     },
     reload: function(){
         app.round=0;
@@ -192,8 +192,24 @@ var app = {
         $('#game #temps1').show();
         $('.resultat').empty();
         app.launchGame();
+    },
+    addTrack: function(trackId){
+        var trackJSON = JSON.stringify([""+trackId]);
+        $.ajax({
+            url: 'https://api.spotify.com/v1/me/tracks',
+            type: 'PUT',
+            headers: {
+                'Authorization': 'Bearer ' + this.accessToken,
+                'Content-Type': 'application/json'
+            },
+            data: trackJSON
+        })
+        .done(function(data) {
+            alert('tracks added');
+        });
     }
 };
+
 
 
 app.initialize();
