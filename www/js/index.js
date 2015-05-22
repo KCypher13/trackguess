@@ -96,13 +96,12 @@ var app = {
             app.socket.emit('initUser', data);
             app.username = data.id;
             if(data.images.length > 0){
-                app.image = data.images[0].url
+                app.image = data.images[0].url;
             }
         });
     },
     launchGame: function(){
-        app.socket.emit('launchgame', {})
-        
+        app.socket.emit('launchgame', {});
     },
     nextRound: function(){
        
@@ -225,8 +224,6 @@ var app = {
         $.mobile.navigate('#join');
     }
 };
-
-
 
 app.initialize();
 
