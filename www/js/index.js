@@ -205,7 +205,7 @@ var app = {
             data: trackJSON
         })
         .done(function(data) {
-            alert('tracks added');
+            alert('Piste sauvegardée dans votre collection');
         });
     }
 };
