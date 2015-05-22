@@ -61,7 +61,6 @@
 
                 app.socket.on('game', function(data){
                     app.role="";
-
                     $('#room .page-title').html(app.room);
                     if(data.role == "admin"){
                         $('.play').removeClass('hide');
@@ -71,7 +70,6 @@
                     }
                     else{
                         $.each(data.players, function(index, val) {
-                            console.log(val);
                             $('.players li:nth-child('+val.number+')').removeClass('hide');
                             $('.players li:nth-child('+val.number+') p:not(.resultat)').html(val.id);
                             if(val.image != null){
@@ -89,7 +87,13 @@
                 });
 
                 app.socket.on('newPlayer', function(data){
-                    $('.players li:nth-child('+data.number+')').removeClass('hide');
+
+                    if($.mobile.activePage.attr('id') != "game"){
+                        $('.players li:nth-child('+data.number+')').removeClass('hide');
+                    }
+                    else{
+                        app.newPlayer.push(data.number);
+                    }
                     $('.players li:nth-child('+data.number+') p:not(.resultat)').html(data.spotifyId);
                     if(data.image != null){
                         $('.players li:nth-child('+data.number+') img:not(".imgadmin")').attr('src', data.image);
@@ -111,7 +115,6 @@
                 });
 
                 app.socket.on('reload', function(data){
-                    console.log('reload');
                     app.reload();
                 });
 
@@ -197,6 +200,7 @@
                             <p></p>
                             <span></span>
                             <p class="resultat"></p>
+                            <span class="good hide"></span>
                         </div>
                     </li>
                     <li data-id="2" class="hide">
@@ -205,6 +209,7 @@
                             <p></p>
                             <span></span>
                             <p class="resultat"></p>
+                            <span class="good hide"></span>
                         </div>
                     </li>
                     <li data-id="3" class="hide">
@@ -213,6 +218,7 @@
                             <p></p>
                             <span></span>
                             <p class="resultat"></p>
+                            <span class="good hide"></span>
                         </div>
                     </li>
                     <li data-id="4" class="hide">

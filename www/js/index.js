@@ -25,6 +25,7 @@ var app = {
     round:0,
     result:0,
     number:0,
+    newPlayer:[],
     // Application Constructor
     initialize: function() {
         this.bindEvents();
@@ -65,6 +66,12 @@ var app = {
         window.location = "https://accounts.spotify.com/authorize/?client_id=9121d0695d984d7b9d86628d17a0c654&response_type=code&redirect_uri="+uri+"&scope="+scope;        
     },
     joinRoom: function(){
+            app.reset();
+            $('.players li img:not(".imgadmin")').attr('src', 'img/default.gif');
+            $('.players li:not(.admin):not(.hide)').addClass('hide');
+            if(app.room != undefined){
+                app.socket.emit('leaveRoom',{});
+            }
             app.room = $('input[name="room"]').val();
             app.socket.emit('join', {room:app.room});
     },
@@ -125,6 +132,7 @@ var app = {
             $('#cover img').attr('src', '');
             $('#artist').empty();
             $('#track').empty();
+            $('.good:not(.hide)').addClass('hide');
 
             $('#cover img').attr('src', app.tracks[app.round].track.album.images[1].url);
             $('#artist').html(app.tracks[app.round].track.artists[0].name);
@@ -147,7 +155,7 @@ var app = {
             setTimeout(function(){
                 $('#game #temps2').fadeIn(200);
             },200);
-            
+            $('.players li:nth-child('+app.tracks[app.round-1].owner+') .good').removeClass('hide');
         }
 
     },
@@ -183,6 +191,13 @@ var app = {
     },
     reload: function(){
         app.reset();
+        console.log(app.newPlayer);
+        if(app.newPlayer.length > 0){
+            console.log('if');
+            for(key in app.newPlayer){
+                $('.players li:nth-child('+app.newPlayer[key]+')').removeClass('hide');    
+            }
+        }
         app.launchGame();
     },
     reset: function(){
@@ -220,7 +235,6 @@ var app = {
     adminDisconnect: function(){
         app.reset();
         app.socket.emit('leaveRoom',{});
-        $('.players li:not(.admin):not(.hide)').addClass('hide');
         $.mobile.navigate('#join');
     }
 };

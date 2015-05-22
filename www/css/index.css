@@ -331,6 +331,30 @@ input:-moz-placeholder { font-family: 'roboto_condensedlight'; }
     text-align: left;
     font-size: 20px;
     position: relative;
+    overflow: hidden;
+}
+@-webkit-keyframes answer {
+    0%   {opacity: 0.1;}
+    50%   {opacity: 0.5;}
+    100%   {opacity: 0.1;}
+}
+@keyframes answer { 
+    0%   {opacity: 0.1;}
+    50%   {opacity: 0.5;}
+    100%   {opacity: 0.1;}
+}
+.good {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    opacity: 0.5;
+    background: green;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    -webkit-animation: answer 2s linear infinite;
+    animation: answer 2s linear infinite;
 }
 #game .players li > div{
     width: 80%;
