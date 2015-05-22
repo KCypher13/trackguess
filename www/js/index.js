@@ -184,14 +184,18 @@ var app = {
         app.socket.emit('reload', {});
     },
     reload: function(){
+        app.reset();
+        app.launchGame();
+    },
+    reset: function(){
         app.round=0;
         app.result = 0;
+        app.music.pause();
 
         $('audio').empty();
         $('#game #temps2').hide();
         $('#game #temps1').show();
         $('.resultat').empty();
-        app.launchGame();
     },
     addTrack: function(trackId){
         var trackJSON = JSON.stringify([""+trackId]);
@@ -212,6 +216,12 @@ var app = {
                 'Merci !'                  
             );
         });
+    },
+    adminDisconnect: function(){
+        app.reset();
+        app.socket.emit('leaveRoom',{});
+        $('.players li:not(.admin):not(.hide)').addClass('hide');
+        $.mobile.navigate('#join');
     }
 };
 

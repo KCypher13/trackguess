@@ -118,6 +118,15 @@
                     alert('reconnect');
                     app.socket.emit('reconnexion', {spotifyId : app.username});
                 });
+
+                app.socket.on('adminDisconnect', function(data){
+                    navigator.notification.alert(
+                        'Tu va être renvoyer à la page d\'accueil',  
+                        app.adminDisconnect,         
+                        'L\'administrateur a quitté la partie',            
+                        'Ok'                  
+                    );
+                });
             }
         </script>
     </head>
