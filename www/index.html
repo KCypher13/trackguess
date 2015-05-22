@@ -87,7 +87,6 @@
                 });
 
                 app.socket.on('newPlayer', function(data){
-                    console.log(data)
                     if($.mobile.activePage.attr('id') != "game"){
                         $('.players li:nth-child('+data.number+')').removeClass('hide');
                     }
@@ -101,7 +100,6 @@
                 });
 
                 app.socket.on('quizz', function(data){
-                    console.log(data);
                     app.tracks = data;
                     app.nextRound();
                     for(key in app.tracks){

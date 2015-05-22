@@ -40,5 +40,5 @@ resources/signing
 *.ai
 *.psd
 
-tmp/*
-node_modules/*
+serveur/tmp/*
+/serveur/node_modules

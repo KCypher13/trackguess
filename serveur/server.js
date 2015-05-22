@@ -63,10 +63,6 @@ io.on('connection', function(socket){
 
 	});
 
-	socket.on('leaveRoom', function(data){
-
-	});
-
 
 	socket.on('launchgame', function(data){
 
@@ -94,8 +90,32 @@ io.on('connection', function(socket){
 	});
 
 	socket.on('leaveRoom', function(data){
+		socket.leave(clients[socket.id].room)
+	});
 
+	socket.on('disconnect', function(data){
+		console.log('disconnect');
+		if(clients[socket.id].role == "admin"){
+			socket.broadcast.to(clients[socket.id].room).emit('adminDisconnect', {});
+		}
+		socket.leave(clients[socket.id].room);
 	})
+
+	socket.on('reconnexion', function(data){
+		for(key in clients){
+			if(clients[key].spotifyId == data.spotifyId){
+				var exSocket = key;
+			}
+
+			if(exSocket != undefined){
+				clients[socket.id] = clients[exSocket];
+				if(clients[socket.id].room != undefined){
+					socket.join(clients[socket.id].room);
+				}
+			}
+		}
+	});
+
 });
 
 app.listen(3000);
