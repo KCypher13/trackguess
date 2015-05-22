@@ -39,3 +39,6 @@ resources/signing
 # PSD et AI
 *.ai
 *.psd
+
+tmp/*
+node_modules/*
