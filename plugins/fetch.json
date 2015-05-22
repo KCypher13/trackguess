@@ -17,5 +17,13 @@
         "variables": {
             "URL_SCHEME": "trackguess"
         }
+    },
+    "org.apache.cordova.dialogs": {
+        "source": {
+            "type": "registry",
+            "id": "org.apache.cordova.dialogs"
+        },
+        "is_top_level": true,
+        "variables": {}
     }
 }

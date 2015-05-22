@@ -205,7 +205,12 @@ var app = {
             data: trackJSON
         })
         .done(function(data) {
-            alert('Piste sauvegardée dans votre collection');
+            navigator.notification.alert(
+                'Le morceau à été ajouté à ta collection',  
+                function(){},         
+                'Ta playlist est heureuse !',            
+                'Merci !'                  
+            );
         });
     }
 };

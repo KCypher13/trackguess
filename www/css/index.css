@@ -69,6 +69,10 @@ body {
     font-family: 'roboto_condensedregular';
     min-height: 40px;
 }
+.ui-page-theme-a .ui-btn:hover,
+.ui-page-theme-a .ui-btn:focus {
+    box-shadow: none;
+}
 .page-title {
     font-family: 'roboto_condensedbold';
     font-size: 20px;
@@ -233,10 +237,10 @@ input:-moz-placeholder { font-family: 'roboto_condensedlight'; }
     border-radius: 50px;
     display: inline-block;
     position: absolute;
-    top: -25px;
+    top: -30px;
     right: 10%;
     color: #fff;
-    width: 90px;
+    width: 70px;
     font-size: 30px;
     line-height: 0;
     padding: 0;
