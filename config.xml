@@ -24,4 +24,8 @@
         <allow-intent href="itms-apps:*" />
     </platform>
     <preference name="orientation" value="portrait" />
+    <plugin name="cordova-plugin-facebook4" spec="https://github.com/jeduan/cordova-plugin-facebook4">
+        <variable name="APP_ID" value="154811078183159" />
+        <variable name="APP_NAME" value="Trackguess" />
+    </plugin>
 </widget>

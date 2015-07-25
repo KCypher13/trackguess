@@ -53,8 +53,8 @@
                     app.accessToken = data.access_token;
                     app.refreshToken = data.refresh_token;
                     app.getUser();
-                    app.grabTrack('https://api.spotify.com/v1/me/tracks?market=ES&limit=50');
-                    $.mobile.navigate('#join');
+                    //app.grabTrack('https://api.spotify.com/v1/me/tracks?market=ES&limit=50');
+                    $.mobile.navigate('#fbConnect');
                   },
                   dataType: 'json'
                 });
@@ -139,10 +139,16 @@
                 <h2 class="logo-max"><img src="img/logo-max.png" alt="Trackguess"></h2>
                 <button class="login btn-tg ui-btn" onclick="app.login()"><img src="img/btn-spotify.png">Connectez-vous avez Spotify</button>
             </div>
+            <div data-role="page" id="fbConnect">
+                <h2>Retrouve tes amis !</h2>
+                <button class="login btn-tg ui-btn" onclick="app.fbConnect()">Facebook</button>
+            </div>
+
             <div data-role="page" id="join">
                 <h2 class="logo-max"><img src="img/logo-max.png" alt="Trackguess"></h2>
                 <input type="text" name="room" placeholder="Entrer le nom de la room">
                 <button class="join btn-tg ui-btn" onclick="app.joinRoom()"><img src="img/btn-next.png">Créer ou rejoindre la room</button>
+                <button onclick="window.plugins.socialsharing.share('Message only')">test social share</button>
             </div>
             <div data-role="page" id="room">
                 <div class="loading">

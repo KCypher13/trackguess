@@ -19,6 +19,30 @@
                         {
                             "xml": "<feature name=\"Notification\"><param name=\"android-package\" value=\"org.apache.cordova.dialogs.Notification\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"FacebookConnectPlugin\"><param name=\"android-package\" value=\"org.apache.cordova.facebook.ConnectPlugin\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<access origin=\"https://m.facebook.com\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<access origin=\"https://graph.facebook.com\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<access origin=\"https://api.facebook.com\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<access origin=\"https://*.fbcdn.net\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<access origin=\"https://*.akamaihd.net\" />",
+                            "count": 1
                         }
                     ]
                 }
@@ -28,6 +52,34 @@
                     "/*/application/activity": [
                         {
                             "xml": "<intent-filter><data android:scheme=\"trackguess\" /><action android:name=\"android.intent.action.VIEW\" /><category android:name=\"android.intent.category.DEFAULT\" /><category android:name=\"android.intent.category.BROWSABLE\" /></intent-filter>",
+                            "count": 1
+                        }
+                    ],
+                    "application": [
+                        {
+                            "xml": "<meta-data android:name=\"com.facebook.sdk.ApplicationId\" android:value=\"@string/fb_app_id\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<meta-data android:name=\"com.facebook.sdk.ApplicationName\" android:value=\"@string/fb_app_name\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<activity android:configChanges=\"keyboard|keyboardHidden|screenLayout|screenSize|orientation\" android:label=\"@string/fb_app_name\" android:name=\"com.facebook.FacebookActivity\" android:theme=\"@android:style/Theme.Translucent.NoTitleBar\" />",
+                            "count": 1
+                        }
+                    ]
+                }
+            },
+            "res/values/facebookconnect.xml": {
+                "parents": {
+                    "/*": [
+                        {
+                            "xml": "<string name=\"fb_app_id\">154811078183159</string>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<string name=\"fb_app_name\">Trackguess</string>",
                             "count": 1
                         }
                     ]
@@ -44,6 +96,11 @@
             "PACKAGE_NAME": "com.trackguess.app"
         },
         "org.apache.cordova.dialogs": {
+            "PACKAGE_NAME": "com.trackguess.app"
+        },
+        "cordova-plugin-facebook4": {
+            "APP_ID": "154811078183159",
+            "APP_NAME": "Trackguess",
             "PACKAGE_NAME": "com.trackguess.app"
         }
     },

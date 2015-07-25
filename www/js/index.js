@@ -65,6 +65,17 @@ var app = {
 
         window.location = "https://accounts.spotify.com/authorize/?client_id=9121d0695d984d7b9d86628d17a0c654&response_type=code&redirect_uri="+uri+"&scope="+scope;        
     },
+    fbConnect: function(){
+        alert('try connect');
+        facebookConnectPlugin.login(['public_profile', 'email', 'user_friends'], this.fbConnectSuccess, this.fbConnectFail);
+    },
+    fbConnectSuccess: function(fbUserInfo){
+        alert('OK FBconnect');
+        console.log(fbUserInfo);
+    },
+    fbConnectFail: function(err){
+        alert(err)
+    },
     joinRoom: function(){
             app.reset();
             $('.players li img:not(".imgadmin")').attr('src', 'img/default.gif');
