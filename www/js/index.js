@@ -72,9 +72,20 @@ var app = {
     fbConnectSuccess: function(fbUserInfo){
         alert('OK FBconnect');
         console.log(fbUserInfo);
+        app.fbUserId = fbUserInfo.authResponse.userID;
+        app.getfbFriends();
     },
     fbConnectFail: function(err){
-        alert(err)
+        console.log(err);
+    },
+    getfbFriends: function(){
+        facebookConnectPlugin.api(app.fbUserId+"/friends", ['user_friends'],
+        function (result) {
+            console.log(result);
+        },
+        function (error) {
+            console.log( error);
+        });
     },
     joinRoom: function(){
             app.reset();
